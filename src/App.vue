@@ -4,50 +4,61 @@ import ProfileCard from './components/ProfileCard.vue'
 import SocialMedia from './components/SocialMedia.vue'
 </script>
 <template>
-  <NavBar/>
-  <ProfileCard/>
-  <SocialMedia/>
+    <NavBar @addName="changeName" />
+    <ProfileCard />
+    <SocialMedia v-bind:name="username" />
 </template>
 
 <script>
 
 export default {
-  name: 'App',
+    name: 'App',
+    methods: {
+        changeName(name) {
+            this.username = name
+        }
+    },
+    data: function () {
+        return {
+            username: ""
+        }
+    }
 }
 </script>
 
 <style>
-body{
+body {
     font-family: 'Montserrat', sans-serif;
     background-color: #F4F4F5;
 }
-.profile-photo{
+
+.profile-photo {
     border-style: solid;
     border-radius: 50%;
     border-color: #3B82F6;
 }
 
-.card-rounded{
+.card-rounded {
     border-radius: 30px;
     background-color: white;
-    
+
 }
 
-.btn-follow{
+.btn-follow {
     height: 100%;
 }
 
-.feed-img{
-    width:100%;
+.feed-img {
+    width: 100%;
     border-radius: 40px;
     padding: 20px;
 }
 
-.btn-delete{
+.btn-delete {
     margin-left: 5%;
 }
 
-.commet{
+.commet {
     margin-top: 2%;
 }
 </style>

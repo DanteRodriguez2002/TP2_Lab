@@ -27,13 +27,14 @@ const message = ref('')
                             <h5>Comentarios</h5>
                         </div>
                         <div class="text-box-comments px-4">
-                            <!-- {{ comments.boxComment }} -->
-                            <p v-for="item in boxComment" v-bind:key="item.id">{{ item.message }}</p>
+                            <div v-for="item in boxComment" v-bind:key="item.id">
+                                <p><b>{{ item.username }}</b>: {{ item.message }}</p>
+
+                            </div>
                         </div>
                         <div class="row px-4 mb-4">
                             <div class="col-10">
-                                <span v-if="comments.textFieldError" style="color: red;">No puedes agregar un comentario
-                                    vacio</span>
+                                <span v-if="textFieldError" style="color: red;">{{ errorMessage }}</span>
                                 <input type="text" class="form-control" placeholder="Deja tu comentario..."
                                     id="comment-field" v-model.trim="message">
                                 <div class="error hidden"></div>
@@ -85,29 +86,28 @@ export default {
 
         add_comment: function (text) {
             if (text === '') {
-                this.comments.textFieldError = true
-
-
-            } else {
-                this.boxComment.push({ message: text })
-                this.comments.textFieldError = false
+                this.textFieldError = true
+                this.errorMessage = 'El comentario esta vacio'
+            } else if (this.name === '') {
+                this.textFieldError = true
+                this.errorMessage = 'Ingrese un nombre para agregar un comentario'
+            }else {
+                this.boxComment.push({ username: this.name, message: text })
+                this.textFieldError = false
 
             }
         }
     },
-
+    props: ['name'],
     data: function () {
         return {
             like: {
                 flagLike: true,
                 likes: 0
             },
-            comments: {
-                name: "",
-                text: "",
-                textFieldError: false,
-                boxComment: []
-            },
+            errorMessage: '',
+            textFieldError: false,
+
             boxComment: [
 
             ]
