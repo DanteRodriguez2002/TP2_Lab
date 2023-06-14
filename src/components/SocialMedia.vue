@@ -1,7 +1,5 @@
 <script setup>
-import { ref } from 'vue'
 
-const message = ref('')
 </script>
 <template>
     <section class="container mt-5">
@@ -27,8 +25,8 @@ const message = ref('')
                             <h5>Comentarios</h5>
                         </div>
                         <div class="text-box-comments px-4">
-                            <div v-for="item in boxComment" v-bind:key="item.id">
-                                <p><b>{{ item.username }}</b>: {{ item.message }}</p>
+                            <div v-for="(item, index) in boxComment" v-bind:key="item.id">
+                                <b>{{ item.username }}</b>: {{ item.message }} <button class="btn btn-outline-danger ml-5 btn-delete" @click="delete_comment(index)">Eliminar</button>
 
                             </div>
                         </div>
@@ -70,8 +68,6 @@ const message = ref('')
 
 export default {
     name: 'SocialMedia',
-
-
     methods: {
         like_dislike: function (flag) {
             if (flag) {
@@ -83,8 +79,8 @@ export default {
             }
 
         },
-
         add_comment: function (text) {
+            this.message=''
             if (text === '') {
                 this.textFieldError = true
                 this.errorMessage = 'El comentario esta vacio'
@@ -96,6 +92,9 @@ export default {
                 this.textFieldError = false
 
             }
+        },
+        delete_comment(id){
+            this.boxComment.splice(id, 1)
         }
     },
     props: ['name'],
@@ -107,10 +106,8 @@ export default {
             },
             errorMessage: '',
             textFieldError: false,
-
-            boxComment: [
-
-            ]
+            boxComment: [],
+            message:''
         }
     }
 }
